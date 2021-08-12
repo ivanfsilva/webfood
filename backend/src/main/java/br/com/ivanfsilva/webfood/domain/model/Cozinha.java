@@ -16,6 +16,6 @@ public class Cozinha {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 30)
+    @Column(nullable = false, length = 30)
     private String nome;
 }
