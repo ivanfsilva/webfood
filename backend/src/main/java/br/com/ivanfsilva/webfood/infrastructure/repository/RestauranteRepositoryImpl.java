@@ -6,7 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import br.com.ivanfsilva.webfood.domain.model.Restaurante;
-import br.com.ivanfsilva.webfood.domian.repository.RestauranteRepository;
+import br.com.ivanfsilva.webfood.domain.repository.RestauranteRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 

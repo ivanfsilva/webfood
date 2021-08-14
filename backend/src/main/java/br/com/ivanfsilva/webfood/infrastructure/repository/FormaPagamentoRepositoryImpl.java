@@ -1,7 +1,7 @@
 package br.com.ivanfsilva.webfood.infrastructure.repository;
 
 import br.com.ivanfsilva.webfood.domain.model.FormaPagamento;
-import br.com.ivanfsilva.webfood.domian.repository.FormaPagamentoRepository;
+import br.com.ivanfsilva.webfood.domain.repository.FormaPagamentoRepository;
 
 import java.util.List;
 

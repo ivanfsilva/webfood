@@ -1,7 +1,7 @@
 package br.com.ivanfsilva.webfood.infrastructure.repository;
 
 import br.com.ivanfsilva.webfood.domain.model.Estado;
-import br.com.ivanfsilva.webfood.domian.repository.EstadoRepository;
+import br.com.ivanfsilva.webfood.domain.repository.EstadoRepository;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;

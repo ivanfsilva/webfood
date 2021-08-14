@@ -1,4 +1,4 @@
-package br.com.ivanfsilva.webfood.domian.repository;
+package br.com.ivanfsilva.webfood.domain.repository;
 
 import br.com.ivanfsilva.webfood.domain.model.Permissao;
 

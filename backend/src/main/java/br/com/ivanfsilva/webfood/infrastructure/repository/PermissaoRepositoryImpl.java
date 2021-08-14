@@ -1,7 +1,7 @@
 package br.com.ivanfsilva.webfood.infrastructure.repository;
 
 import br.com.ivanfsilva.webfood.domain.model.Permissao;
-import br.com.ivanfsilva.webfood.domian.repository.PermissaoRepository;
+import br.com.ivanfsilva.webfood.domain.repository.PermissaoRepository;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;

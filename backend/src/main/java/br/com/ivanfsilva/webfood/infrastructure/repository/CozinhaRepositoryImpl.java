@@ -1,7 +1,7 @@
 package br.com.ivanfsilva.webfood.infrastructure.repository;
 
 import br.com.ivanfsilva.webfood.domain.model.Cozinha;
-import br.com.ivanfsilva.webfood.domian.repository.CozinhaRepository;
+import br.com.ivanfsilva.webfood.domain.repository.CozinhaRepository;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
