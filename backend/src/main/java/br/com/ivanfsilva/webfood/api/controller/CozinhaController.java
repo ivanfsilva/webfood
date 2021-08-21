@@ -36,6 +36,11 @@ public class CozinhaController {
         return cozinhaRepository.findByNome(nome);
     }
 
+    @GetMapping("/exists")
+    public boolean cozinhaExists(String nome) {
+        return cozinhaRepository.existsByNome(nome);
+    }
+
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Cozinha> listar() {
         return cozinhaRepository.findAll();
