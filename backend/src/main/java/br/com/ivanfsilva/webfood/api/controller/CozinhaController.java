@@ -26,6 +26,11 @@ public class CozinhaController {
     @Autowired
     private CadastroCozinhaService cadastroCozinha;
 
+    @GetMapping("/por-nome")
+    public List<Cozinha> cozinhaPorNome( String nome ) {
+        return cozinhaRepository.findByNome(nome);
+    }
+
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Cozinha> listar() {
         return cozinhaRepository.findAll();
