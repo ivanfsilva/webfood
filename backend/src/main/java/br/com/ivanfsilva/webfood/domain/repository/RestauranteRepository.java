@@ -2,6 +2,8 @@ package br.com.ivanfsilva.webfood.domain.repository;
 
 import br.com.ivanfsilva.webfood.domain.model.Restaurante;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
@@ -13,11 +15,15 @@ public interface RestauranteRepository extends JpaRepository<Restaurante, Long> 
 
     List<Restaurante> findByTaxaFreteBetween(BigDecimal taxaInicial, BigDecimal taxaFinal);
 
+    @Query("FROM Restaurante WHERE nome LIKE %:nome% AND cozinha.id = :id")
+    List<Restaurante> consultarPorNome(String nome, @Param("id") Long cozinha);
+
     List<Restaurante> findByNomeContainingAndCozinhaId(String nome, Long cozinha);
 
     // consulta filtrando só o primeiro resultado
     Optional<Restaurante> findFirstByNomeContaining(String nome);
 
+    // consulta filtrando só o dois primeiros resultados
     List<Restaurante> findTop2ByNomeContaining(String nome);
 
     int countByCozinhaId(Long cozinha);
