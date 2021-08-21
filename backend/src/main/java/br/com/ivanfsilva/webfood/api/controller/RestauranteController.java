@@ -6,6 +6,7 @@ import br.com.ivanfsilva.webfood.domain.repository.RestauranteRepository;
 import br.com.ivanfsilva.webfood.domain.service.CadastroRestauranteService;
 import br.com.ivanfsilva.webfood.infrastructure.repository.spec.RestauranteComFreteGratisSpec;
 import br.com.ivanfsilva.webfood.infrastructure.repository.spec.RestauranteComNomeSemelhanteSpec;
+import br.com.ivanfsilva.webfood.infrastructure.repository.spec.RestauranteSpecs;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,12 +69,11 @@ public class RestauranteController {
         return restauranteRepository.countByCozinhaId(cozinhaId);
     }
 
-    @GetMapping("/com-frete-gratis")
+    @GetMapping("/restaurantes/com-frete-gratis")
     public List<Restaurante> restaurantesComFreteGratis(String nome) {
-        var comFreteGratis = new RestauranteComFreteGratisSpec();
-        var comNomeSemelhante = new RestauranteComNomeSemelhanteSpec(nome);
 
-        return restauranteRepository.findAll(comFreteGratis.and(comNomeSemelhante));
+        return restauranteRepository.findAll(RestauranteSpecs.comFreteGratis()
+                .and(RestauranteSpecs.comNomeSemelhante(nome)));
     }
 
     @GetMapping("/{restauranteId}")
