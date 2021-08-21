@@ -28,6 +28,11 @@ public class CozinhaController {
 
     @GetMapping("/por-nome")
     public List<Cozinha> cozinhaPorNome( String nome ) {
+        return cozinhaRepository.findTodasByNomeContaining(nome);
+    }
+
+    @GetMapping("/unica-por-nome")
+    public Optional<Cozinha> cozinhaUnicaPorNome( String nome ) {
         return cozinhaRepository.findByNome(nome);
     }
 
