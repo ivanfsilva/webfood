@@ -4,8 +4,6 @@ import br.com.ivanfsilva.webfood.domain.exception.EntidadeNaoEncontradaException
 import br.com.ivanfsilva.webfood.domain.model.Restaurante;
 import br.com.ivanfsilva.webfood.domain.repository.RestauranteRepository;
 import br.com.ivanfsilva.webfood.domain.service.CadastroRestauranteService;
-import br.com.ivanfsilva.webfood.infrastructure.repository.spec.RestauranteComFreteGratisSpec;
-import br.com.ivanfsilva.webfood.infrastructure.repository.spec.RestauranteComNomeSemelhanteSpec;
 import br.com.ivanfsilva.webfood.infrastructure.repository.spec.RestauranteSpecs;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.BeanUtils;
