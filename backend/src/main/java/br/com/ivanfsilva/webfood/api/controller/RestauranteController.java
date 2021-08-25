@@ -1,23 +1,20 @@
 package br.com.ivanfsilva.webfood.api.controller;
 
 import br.com.ivanfsilva.webfood.domain.exception.EntidadeNaoEncontradaException;
+import br.com.ivanfsilva.webfood.domain.exception.NegocioException;
 import br.com.ivanfsilva.webfood.domain.model.Restaurante;
 import br.com.ivanfsilva.webfood.domain.repository.RestauranteRepository;
 import br.com.ivanfsilva.webfood.domain.service.CadastroRestauranteService;
-import br.com.ivanfsilva.webfood.infrastructure.repository.spec.RestauranteSpecs;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Field;
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/restaurantes")
@@ -34,45 +31,45 @@ public class RestauranteController {
         return restauranteRepository.findAll();
     }
 
-    @GetMapping("/por-taxa-frete")
-    public List<Restaurante> restaurantesPorTaxaFrete(
-            BigDecimal taxaInicial, BigDecimal taxaFinal) {
-        return restauranteRepository.findByTaxaFreteBetween(taxaInicial, taxaFinal);
-    }
+//    @GetMapping("/por-taxa-frete")
+//    public List<Restaurante> restaurantesPorTaxaFrete(
+//            BigDecimal taxaInicial, BigDecimal taxaFinal) {
+//        return restauranteRepository.findByTaxaFreteBetween(taxaInicial, taxaFinal);
+//    }
 
-    @GetMapping("/por-nome-query")
-    public List<Restaurante> restaurantesPorNomeQuery(
-            String nome, Long cozinhaId) {
-        return restauranteRepository.consultarPorNome(nome, cozinhaId);
-    }
+//    @GetMapping("/por-nome-query")
+//    public List<Restaurante> restaurantesPorNomeQuery(
+//            String nome, Long cozinhaId) {
+//        return restauranteRepository.consultarPorNome(nome, cozinhaId);
+//    }
 
-    @GetMapping("/por-nome")
-    public List<Restaurante> restaurantesPorNome(
-            String nome, Long cozinhaId) {
-        return restauranteRepository.findByNomeContainingAndCozinhaId(nome, cozinhaId);
-    }
-
-    @GetMapping("/primeiro-por-nome")
-    public Optional<Restaurante> restaurantePrimeiroPorNome(String nome) {
-        return restauranteRepository.findFirstByNomeContaining(nome);
-    }
-
-    @GetMapping("/top2-por-nome")
-    public List<Restaurante> restaurantesTop2PorNome(String nome) {
-        return restauranteRepository.findTop2ByNomeContaining(nome);
-    }
-
-    @GetMapping("/count-por-cozinha")
-    public int restaurantesCountPorCozinha(Long cozinhaId) {
-        return restauranteRepository.countByCozinhaId(cozinhaId);
-    }
-
-    @GetMapping("/restaurantes/com-frete-gratis")
-    public List<Restaurante> restaurantesComFreteGratis(String nome) {
-
-        return restauranteRepository.findAll(RestauranteSpecs.comFreteGratis()
-                .and(RestauranteSpecs.comNomeSemelhante(nome)));
-    }
+//    @GetMapping("/por-nome")
+//    public List<Restaurante> restaurantesPorNome(
+//            String nome, Long cozinhaId) {
+//        return restauranteRepository.findByNomeContainingAndCozinhaId(nome, cozinhaId);
+//    }
+//
+//    @GetMapping("/primeiro-por-nome")
+//    public Optional<Restaurante> restaurantePrimeiroPorNome(String nome) {
+//        return restauranteRepository.findFirstByNomeContaining(nome);
+//    }
+//
+//    @GetMapping("/top2-por-nome")
+//    public List<Restaurante> restaurantesTop2PorNome(String nome) {
+//        return restauranteRepository.findTop2ByNomeContaining(nome);
+//    }
+//
+//    @GetMapping("/count-por-cozinha")
+//    public int restaurantesCountPorCozinha(Long cozinhaId) {
+//        return restauranteRepository.countByCozinhaId(cozinhaId);
+//    }
+//
+//    @GetMapping("/restaurantes/com-frete-gratis")
+//    public List<Restaurante> restaurantesComFreteGratis(String nome) {
+//
+//        return restauranteRepository.findAll(RestauranteSpecs.comFreteGratis()
+//                .and(RestauranteSpecs.comNomeSemelhante(nome)));
+//    }
 
     @GetMapping("/{restauranteId}")
     public Restaurante buscar(@PathVariable Long restauranteId) {
@@ -82,7 +79,11 @@ public class RestauranteController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Restaurante adicionar(@RequestBody Restaurante restaurante) {
-        return cadastroRestaurante.salvar(restaurante);
+        try {
+            return cadastroRestaurante.salvar(restaurante);
+        } catch (EntidadeNaoEncontradaException e) {
+            throw new NegocioException(e.getMessage());
+        }
     }
 
     @PutMapping("/{restauranteId}")
@@ -93,7 +94,11 @@ public class RestauranteController {
         BeanUtils.copyProperties(restaurante, restauranteAtual,
                 "id", "formasPagamento", "endereco", "dataCadastro", "produtos");
 
-        return cadastroRestaurante.salvar(restauranteAtual);
+        try {
+            return cadastroRestaurante.salvar(restauranteAtual);
+        } catch (EntidadeNaoEncontradaException e) {
+            throw new NegocioException(e.getMessage());
+        }
     }
 
     @PatchMapping("/{restauranteId}")
