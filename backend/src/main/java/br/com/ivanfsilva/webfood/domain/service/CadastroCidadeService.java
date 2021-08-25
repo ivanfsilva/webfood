@@ -1,11 +1,10 @@
 package br.com.ivanfsilva.webfood.domain.service;
 
+import br.com.ivanfsilva.webfood.domain.exception.CidadeNaoEncontradaException;
 import br.com.ivanfsilva.webfood.domain.exception.EntidadeEmUsoException;
-import br.com.ivanfsilva.webfood.domain.exception.EntidadeNaoEncontradaException;
 import br.com.ivanfsilva.webfood.domain.model.Cidade;
 import br.com.ivanfsilva.webfood.domain.model.Estado;
 import br.com.ivanfsilva.webfood.domain.repository.CidadeRepository;
-import br.com.ivanfsilva.webfood.domain.repository.EstadoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -45,8 +44,7 @@ public class CadastroCidadeService {
             cidadeRepository.deleteById(cidadeId);
 
         } catch (EmptyResultDataAccessException e) {
-            throw new EntidadeNaoEncontradaException(
-                    String.format(MSG_CIDADE_NAO_ENCONTRADA, cidadeId));
+            throw new CidadeNaoEncontradaException(cidadeId);
 
         } catch (DataIntegrityViolationException e) {
             throw new EntidadeEmUsoException(
@@ -56,8 +54,7 @@ public class CadastroCidadeService {
 
     public Cidade buscarOuFalhar(Long cidadeId) {
         return cidadeRepository.findById(cidadeId)
-                .orElseThrow(() -> new EntidadeNaoEncontradaException(
-                        String.format(MSG_CIDADE_NAO_ENCONTRADA, cidadeId)));
+                .orElseThrow(() -> new CidadeNaoEncontradaException(cidadeId));
     }
 
 }
