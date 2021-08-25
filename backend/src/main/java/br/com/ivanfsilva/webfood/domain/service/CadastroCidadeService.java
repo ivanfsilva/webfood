@@ -31,6 +31,10 @@ public class CadastroCidadeService {
 
         Estado estado = cadastroEstado.buscarOuFalhar(estadoId);
 
+//		Estado estado = estadoRepository.findById(estadoId)
+//			.orElseThrow(() -> new EntidadeNaoEncontradaException(
+//					String.format("Não existe cadastro de estado com código %d", estadoId)));
+
         cidade.setEstado(estado);
 
         return cidadeRepository.save(cidade);
