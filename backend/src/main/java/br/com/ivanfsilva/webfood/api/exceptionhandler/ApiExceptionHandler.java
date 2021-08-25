@@ -1,5 +1,6 @@
 package br.com.ivanfsilva.webfood.api.exceptionhandler;
 
+import br.com.ivanfsilva.webfood.domain.exception.EntidadeEmUsoException;
 import br.com.ivanfsilva.webfood.domain.exception.EntidadeNaoEncontradaException;
 import br.com.ivanfsilva.webfood.domain.exception.NegocioException;
 import org.springframework.http.HttpStatus;
@@ -38,6 +39,16 @@ public class ApiExceptionHandler {
                 .mensagem("O tipo de mídia não é aceito.")
                 .build();
         return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
+                .body(problema);
+    }
+
+    @ExceptionHandler(EntidadeEmUsoException.class)
+    public ResponseEntity<?> tratarEntidadeEmUsoException(EntidadeEmUsoException e) {
+        Problema problema = Problema.builder()
+                .dataHora(LocalDateTime.now())
+                .mensagem(e.getMessage()).build();
+
+        return ResponseEntity.status(HttpStatus.CONFLICT)
                 .body(problema);
     }
 }
