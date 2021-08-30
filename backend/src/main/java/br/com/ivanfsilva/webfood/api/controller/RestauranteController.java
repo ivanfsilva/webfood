@@ -1,5 +1,6 @@
 package br.com.ivanfsilva.webfood.api.controller;
 
+import br.com.ivanfsilva.webfood.Groups;
 import br.com.ivanfsilva.webfood.domain.exception.CozinhaNaoEncontradaException;
 import br.com.ivanfsilva.webfood.domain.exception.EntidadeNaoEncontradaException;
 import br.com.ivanfsilva.webfood.domain.exception.NegocioException;
@@ -15,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.util.ReflectionUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -85,7 +87,8 @@ public class RestauranteController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Restaurante adicionar(@Valid @RequestBody Restaurante restaurante) {
+    public Restaurante adicionar( @Validated(Groups.CadastroRestaurante.class)
+                                      @RequestBody Restaurante restaurante) {
         try {
             return cadastroRestaurante.salvar(restaurante);
         } catch (CozinhaNaoEncontradaException e) {
