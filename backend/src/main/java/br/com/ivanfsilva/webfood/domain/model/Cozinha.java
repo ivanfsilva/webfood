@@ -1,6 +1,6 @@
 package br.com.ivanfsilva.webfood.domain.model;
 
-import br.com.ivanfsilva.webfood.Groups;
+import br.com.ivanfsilva.webfood.core.validation.Groups;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonRootName;
 import lombok.Data;

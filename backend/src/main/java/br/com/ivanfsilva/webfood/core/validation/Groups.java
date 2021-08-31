@@ -1,4 +1,4 @@
-package br.com.ivanfsilva.webfood;
+package br.com.ivanfsilva.webfood.core.validation;
 
 public interface Groups {
     public interface CozinhaId {}

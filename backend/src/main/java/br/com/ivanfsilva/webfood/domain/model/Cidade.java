@@ -1,6 +1,6 @@
 package br.com.ivanfsilva.webfood.domain.model;
 
-import br.com.ivanfsilva.webfood.Groups;
+import br.com.ivanfsilva.webfood.core.validation.Groups;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
