@@ -3,6 +3,7 @@ package br.com.ivanfsilva.webfood.domain.model;
 import br.com.ivanfsilva.webfood.core.validation.Groups;
 import br.com.ivanfsilva.webfood.core.validation.Multiplo;
 import br.com.ivanfsilva.webfood.core.validation.TaxaFrete;
+import br.com.ivanfsilva.webfood.core.validation.ValorZeroIncluiDescricao;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
@@ -20,6 +21,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@ValorZeroIncluiDescricao(valorField = "taxaFrete",
+        descricaoField = "nome", descricaoObrigatoria = "Frete Grátis" )
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
