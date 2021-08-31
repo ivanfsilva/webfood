@@ -1,6 +1,7 @@
 package br.com.ivanfsilva.webfood.domain.model;
 
 import br.com.ivanfsilva.webfood.core.validation.Groups;
+import br.com.ivanfsilva.webfood.core.validation.TaxaFrete;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
@@ -36,7 +37,8 @@ public class Restaurante {
 
 //    @DecimalMin("1")
     @NotNull
-    @PositiveOrZero(message = "{TaxaFrete.invalida}")
+//    @PositiveOrZero(message = "{TaxaFrete.invalida}")
+    @TaxaFrete
     @Column(name = "taxa_frete", nullable = false)
     private BigDecimal taxaFrete;
 
