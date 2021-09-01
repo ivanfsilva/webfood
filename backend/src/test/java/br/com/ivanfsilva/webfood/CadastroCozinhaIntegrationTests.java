@@ -1,5 +1,7 @@
 package br.com.ivanfsilva.webfood;
 
+import br.com.ivanfsilva.webfood.domain.exception.CozinhaNaoEncontradaException;
+import br.com.ivanfsilva.webfood.domain.exception.EntidadeEmUsoException;
 import br.com.ivanfsilva.webfood.domain.model.Cozinha;
 import br.com.ivanfsilva.webfood.domain.service.CadastroCozinhaService;
 
@@ -40,5 +42,15 @@ public class CadastroCozinhaIntegrationTests {
         novaCozinha.setNome(null);
 
         novaCozinha = cadastroCozinha.salvar(novaCozinha);
+    }
+
+    @Test(expected = EntidadeEmUsoException.class)
+    public void deveFalhar_QuandoExcluirCozinhaEmUso() {
+        cadastroCozinha.excluir(1L);
+    }
+
+    @Test(expected = CozinhaNaoEncontradaException.class)
+    public void deveFalhar_QuandoExcluirCozinhaInexistente() {
+        cadastroCozinha.excluir(100L);
     }
 }
