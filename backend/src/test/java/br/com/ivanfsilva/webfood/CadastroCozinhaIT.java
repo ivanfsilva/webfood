@@ -3,6 +3,7 @@ package br.com.ivanfsilva.webfood;
 import br.com.ivanfsilva.webfood.domain.exception.CozinhaNaoEncontradaException;
 import br.com.ivanfsilva.webfood.domain.exception.EntidadeEmUsoException;
 import br.com.ivanfsilva.webfood.domain.model.Cozinha;
+import br.com.ivanfsilva.webfood.domain.repository.CozinhaRepository;
 import br.com.ivanfsilva.webfood.domain.service.CadastroCozinhaService;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -12,6 +13,7 @@ import static org.hamcrest.Matchers.hasSize;
 
 import javax.validation.ConstraintViolationException;
 
+import br.com.ivanfsilva.webfood.util.DatabaseCleaner;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 
@@ -24,20 +26,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@TestPropertySource("/application-test.properties")
 public class CadastroCozinhaIT {
-
-    @Autowired
-    private CadastroCozinhaService cadastroCozinha;
 
     @LocalServerPort
     private int port;
 
     @Autowired
-    private Flyway flyway;
+    private DatabaseCleaner databaseCleaner;
+
+    @Autowired
+    private CozinhaRepository cozinhaRepository;
 
     @Before
     public void setUp() {
@@ -45,40 +49,10 @@ public class CadastroCozinhaIT {
         RestAssured.port = port;
         RestAssured.basePath = "/cozinhas";
 
-        flyway.migrate();
+        databaseCleaner.clearTables();
+        prepararDados();
     }
 
-    @Test
-    public void deveAtribuirId_QuandoCadastrarCozinhaComDadosCorretos() {
-        // cenario
-        Cozinha novaCozinha = new Cozinha();
-        novaCozinha.setNome("Chinesa");
-
-        // acao
-        novaCozinha = cadastroCozinha.salvar(novaCozinha);
-
-        // validacao
-        assertThat(novaCozinha).isNotNull();
-        assertThat(novaCozinha.getId()).isNotNull();
-    }
-
-    @Test(expected = ConstraintViolationException.class)
-    public void deveFalhar_QuandoCadastrarCozinhaSemNome() {
-        Cozinha novaCozinha = new Cozinha();
-        novaCozinha.setNome(null);
-
-        novaCozinha = cadastroCozinha.salvar(novaCozinha);
-    }
-
-    @Test(expected = EntidadeEmUsoException.class)
-    public void deveFalhar_QuandoExcluirCozinhaEmUso() {
-        cadastroCozinha.excluir(1L);
-    }
-
-    @Test(expected = CozinhaNaoEncontradaException.class)
-    public void deveFalhar_QuandoExcluirCozinhaInexistente() {
-        cadastroCozinha.excluir(100L);
-    }
 
     @Test
     public void deveRetornarStatus200_QuandoConsultarCozinhas() {
@@ -91,18 +65,17 @@ public class CadastroCozinhaIT {
     }
 
     @Test
-    public void deveConter4Cozinhas_QuandoConsultarCozinhas() {
+    public void deveConter2Cozinhas_QuandoConsultarCozinhas() {
         given()
             .accept(ContentType.JSON)
         .when()
             .get()
         .then()
-            .body("", hasSize(4))
-            .body("nome", hasItems("Indiana", "Tailandesa"));
+            .body("", hasSize(2));
     }
 
     @Test
-    public void testRetornarStatus201_QuandoCadastrarCozinha() {
+    public void deveRetornarStatus201_QuandoCadastrarCozinha() {
         given()
             .body("{ \"nome\": \"Chinesa\" }")
             .contentType(ContentType.JSON)
@@ -111,5 +84,15 @@ public class CadastroCozinhaIT {
             .post()
         .then()
             .statusCode(HttpStatus.CREATED.value());
+    }
+
+    private void prepararDados() {
+        Cozinha cozinha1 = new Cozinha();
+        cozinha1.setNome("Tailandesa");
+        cozinhaRepository.save(cozinha1);
+
+        Cozinha cozinha2 = new Cozinha();
+        cozinha2.setNome("Americana");
+        cozinhaRepository.save(cozinha2);
     }
 }
