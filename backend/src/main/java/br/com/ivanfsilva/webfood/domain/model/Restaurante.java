@@ -21,8 +21,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@ValorZeroIncluiDescricao(valorField = "taxaFrete",
-        descricaoField = "nome", descricaoObrigatoria = "Frete Grátis" )
+//@ValorZeroIncluiDescricao(valorField = "taxaFrete",
+//        descricaoField = "nome", descricaoObrigatoria = "Frete Grátis" )
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
@@ -43,14 +43,14 @@ public class Restaurante {
     @NotNull
 //    @PositiveOrZero(message = "{TaxaFrete.invalida}")
     @PositiveOrZero
-    @Multiplo(numero = 5)
+//    @Multiplo(numero = 5)
     @Column(name = "taxa_frete", nullable = false)
     private BigDecimal taxaFrete;
 
     @Valid
     @ConvertGroup(from = Default.class, to = Groups.CozinhaId.class)
-    @JsonIgnoreProperties("hibernateLazyInitializer")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @NotNull
+    @ManyToOne
     @JoinColumn(name = "cozinha_id", nullable = false)
     private Cozinha cozinha;
 
