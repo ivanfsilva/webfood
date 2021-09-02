@@ -15,6 +15,7 @@ import javax.validation.ConstraintViolationException;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -33,6 +34,13 @@ public class CadastroCozinhaIT {
 
     @LocalServerPort
     private int port;
+
+    @Before
+    public void setUp() {
+        RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
+        RestAssured.port = port;
+        RestAssured.basePath = "/cozinhas";
+    }
 
     @Test
     public void deveAtribuirId_QuandoCadastrarCozinhaComDadosCorretos() {
@@ -68,11 +76,7 @@ public class CadastroCozinhaIT {
 
     @Test
     public void deveRetornarStatus200_QuandoConsultarCozinhas() {
-        RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
-
         given()
-            .basePath("/cozinhas")
-            .port(port)
             .accept(ContentType.JSON)
         .when()
             .get()
@@ -82,16 +86,12 @@ public class CadastroCozinhaIT {
 
     @Test
     public void deveConter4Cozinhas_QuandoConsultarCozinhas() {
-        RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
-
         given()
-                .basePath("/cozinhas")
-                .port(port)
-                .accept(ContentType.JSON)
-                .when()
-                .get()
-                .then()
-                .body("", hasSize(5))
-			    .body("nome", hasItems("Indiana", "Tailandesa"));
+            .accept(ContentType.JSON)
+        .when()
+            .get()
+        .then()
+            .body("", hasSize(5))
+            .body("nome", hasItems("Indiana", "Tailandesa"));
     }
 }
