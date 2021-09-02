@@ -1,14 +1,10 @@
 package br.com.ivanfsilva.webfood;
 
-import br.com.ivanfsilva.webfood.domain.exception.CozinhaNaoEncontradaException;
-import br.com.ivanfsilva.webfood.domain.exception.EntidadeEmUsoException;
 import br.com.ivanfsilva.webfood.domain.model.Cozinha;
 import br.com.ivanfsilva.webfood.domain.repository.CozinhaRepository;
-import br.com.ivanfsilva.webfood.domain.service.CadastroCozinhaService;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.hasItems;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 
 import javax.validation.ConstraintViolationException;
@@ -84,6 +80,29 @@ public class CadastroCozinhaIT {
             .post()
         .then()
             .statusCode(HttpStatus.CREATED.value());
+    }
+
+    @Test
+    public void deveRetornarRespostaEStatusCorretos_QuandoConsultarCozinhaExistente() {
+        given()
+            .pathParam("cozinhaId", 2)
+            .accept(ContentType.JSON)
+        .when()
+            .get("/{cozinhaId}")
+        .then()
+            .statusCode(HttpStatus.OK.value())
+            .body("nome", equalTo("Americana"));
+    }
+
+    @Test
+    public void deveRetornarStatus404_QuandoConsultarCozinhaInexistente() {
+        given()
+            .pathParam("cozinhaId", 100)
+            .accept(ContentType.JSON)
+        .when()
+            .get("/{cozinhaId}")
+        .then()
+            .statusCode(HttpStatus.NOT_FOUND.value());
     }
 
     private void prepararDados() {
