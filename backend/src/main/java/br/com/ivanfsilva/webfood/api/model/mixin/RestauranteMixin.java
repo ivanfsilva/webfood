@@ -6,15 +6,11 @@ import br.com.ivanfsilva.webfood.domain.model.FormaPagamento;
 import br.com.ivanfsilva.webfood.domain.model.Produto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.EqualsAndHashCode;
 
-import javax.persistence.*;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
-public class RestauranteMixin {
+public abstract class RestauranteMixin {
 
     @JsonIgnoreProperties(value = "nome", allowGetters = true)
     private Cozinha cozinha;
@@ -29,8 +25,9 @@ public class RestauranteMixin {
     private LocalDateTime dataAtualizacao;
 
     @JsonIgnore
-    private List<Produto> produtos = new ArrayList<>();
+    private List<FormaPagamento> formasPagamento;
 
     @JsonIgnore
-    private List<FormaPagamento> formasPagamento = new ArrayList<>();
+    private List<Produto> produtos;
+
 }
