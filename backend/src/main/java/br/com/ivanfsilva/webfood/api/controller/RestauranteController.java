@@ -2,9 +2,11 @@ package br.com.ivanfsilva.webfood.api.controller;
 
 import br.com.ivanfsilva.webfood.api.model.CozinhaModel;
 import br.com.ivanfsilva.webfood.api.model.RestauranteModel;
+import br.com.ivanfsilva.webfood.api.model.input.RestauranteInput;
 import br.com.ivanfsilva.webfood.core.validation.ValidacaoException;
 import br.com.ivanfsilva.webfood.domain.exception.CozinhaNaoEncontradaException;
 import br.com.ivanfsilva.webfood.domain.exception.NegocioException;
+import br.com.ivanfsilva.webfood.domain.model.Cozinha;
 import br.com.ivanfsilva.webfood.domain.model.Restaurante;
 import br.com.ivanfsilva.webfood.domain.repository.RestauranteRepository;
 import br.com.ivanfsilva.webfood.domain.service.CadastroRestauranteService;
@@ -95,8 +97,9 @@ public class RestauranteController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public RestauranteModel adicionar( @Valid @RequestBody Restaurante restaurante ) {
+    public RestauranteModel adicionar( @Valid @RequestBody RestauranteInput restauranteInput ) {
         try {
+            Restaurante restaurante = toDomainObject(restauranteInput);
             return toModel(cadastroRestaurante.salvar(restaurante));
         } catch (CozinhaNaoEncontradaException e) {
             throw new NegocioException(e.getMessage());
@@ -105,8 +108,10 @@ public class RestauranteController {
 
     @PutMapping("/{restauranteId}")
     public RestauranteModel atualizar(@PathVariable Long restauranteId,
-                                 @RequestBody @Valid Restaurante restaurante) {
+                                 @RequestBody @Valid RestauranteInput restauranteInput) {
         try {
+            Restaurante restaurante = toDomainObject(restauranteInput);
+
             Restaurante restauranteAtual = cadastroRestaurante.buscarOuFalhar(restauranteId);
 
             BeanUtils.copyProperties(restaurante, restauranteAtual,
@@ -181,6 +186,19 @@ public class RestauranteController {
         return restaurantes.stream()
                 .map(restaurante -> toModel(restaurante))
                 .collect(Collectors.toList());
+    }
+
+    private Restaurante toDomainObject(RestauranteInput restauranteInput) {
+        Restaurante restaurante = new Restaurante();
+        restaurante.setNome(restauranteInput.getNome());
+        restaurante.setTaxaFrete(restauranteInput.getTaxaFrete());
+
+        Cozinha cozinha = new Cozinha();
+        cozinha.setId(restauranteInput.getCozinha().getId());
+
+        restaurante.setCozinha(cozinha);
+
+        return restaurante;
     }
 
 }
