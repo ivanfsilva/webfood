@@ -27,7 +27,7 @@ public class Cozinha {
 
 //    @JsonIgnore
 //    @JsonProperty("titulo")
-    @NotBlank
+//    @NotBlank
     @Column(nullable = false, length = 30)
     private String nome;
 
