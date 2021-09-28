@@ -1,6 +1,7 @@
 package br.com.ivanfsilva.webfood.api.assembler;
 
 import br.com.ivanfsilva.webfood.api.model.input.RestauranteInput;
+import br.com.ivanfsilva.webfood.domain.model.Cidade;
 import br.com.ivanfsilva.webfood.domain.model.Cozinha;
 import br.com.ivanfsilva.webfood.domain.model.Restaurante;
 import org.modelmapper.ModelMapper;
@@ -21,6 +22,10 @@ public class RestauranteInputDisassembler {
         // Para evitar org.hibernate.HibernateException: identifier of an instance of
         // br.com.ivanfsilva.webfood.domain.model.Cozinha was altered from 1 to 2
         restaurante.setCozinha(new Cozinha());
+
+        if (restaurante.getEndereco() != null) {
+            restaurante.getEndereco().setCidade(new Cidade());
+        }
 
         modelMapper.map(restauranteInput, restaurante);
     }
