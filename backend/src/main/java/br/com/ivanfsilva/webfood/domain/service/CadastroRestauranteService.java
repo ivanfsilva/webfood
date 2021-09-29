@@ -1,10 +1,7 @@
 package br.com.ivanfsilva.webfood.domain.service;
 
 import br.com.ivanfsilva.webfood.domain.exception.RestauranteNaoEncontradoException;
-import br.com.ivanfsilva.webfood.domain.model.Cidade;
-import br.com.ivanfsilva.webfood.domain.model.Cozinha;
-import br.com.ivanfsilva.webfood.domain.model.FormaPagamento;
-import br.com.ivanfsilva.webfood.domain.model.Restaurante;
+import br.com.ivanfsilva.webfood.domain.model.*;
 import br.com.ivanfsilva.webfood.domain.repository.RestauranteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +21,9 @@ public class CadastroRestauranteService {
 
     @Autowired
     private CadastroFormaPagamentoService cadastroFormaPagamento;
+
+    @Autowired
+    private CadastroUsuarioService cadastroUsuario;
 
     @Transactional
     public Restaurante salvar(Restaurante restaurante) {
@@ -86,6 +86,22 @@ public class CadastroRestauranteService {
     public Restaurante buscarOuFalhar(Long restauranteId) {
         return restauranteRepository.findById(restauranteId)
                 .orElseThrow(() -> new RestauranteNaoEncontradoException(restauranteId));
+    }
+
+    @Transactional
+    public void desassociarResponsavel(Long restauranteId, Long usuarioId) {
+        Restaurante restaurante = buscarOuFalhar(restauranteId);
+        Usuario usuario = cadastroUsuario.buscarOuFalhar(usuarioId);
+
+        restaurante.removerResponsavel(usuario);
+    }
+
+    @Transactional
+    public void associarResponsavel(Long restauranteId, Long usuarioId) {
+        Restaurante restaurante = buscarOuFalhar(restauranteId);
+        Usuario usuario = cadastroUsuario.buscarOuFalhar(usuarioId);
+
+        restaurante.adicionarResponsavel(usuario);
     }
 
 }
