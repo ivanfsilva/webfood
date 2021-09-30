@@ -1,7 +1,9 @@
 package br.com.ivanfsilva.webfood.api.controller;
 
 import br.com.ivanfsilva.webfood.api.assembler.PedidoModelAssembler;
+import br.com.ivanfsilva.webfood.api.assembler.PedidoResumoModelAssembler;
 import br.com.ivanfsilva.webfood.api.model.PedidoModel;
+import br.com.ivanfsilva.webfood.api.model.PedidoResumoModel;
 import br.com.ivanfsilva.webfood.domain.model.Pedido;
 import br.com.ivanfsilva.webfood.domain.repository.PedidoRepository;
 import br.com.ivanfsilva.webfood.domain.service.EmissaoPedidoService;
@@ -26,11 +28,14 @@ public class PedidoController {
     @Autowired
     private PedidoModelAssembler pedidoModelAssembler;
 
+    @Autowired
+    private PedidoResumoModelAssembler pedidoResumoModelAssembler;
+
     @GetMapping
-    public List<PedidoModel> listar() {
+    public List<PedidoResumoModel> listar() {
         List<Pedido> todosPedidos = pedidoRepository.findAll();
 
-        return pedidoModelAssembler.toCollectionModel(todosPedidos);
+        return pedidoResumoModelAssembler.toCollectionModel(todosPedidos);
     }
 
     @GetMapping("/{pedidoId}")
