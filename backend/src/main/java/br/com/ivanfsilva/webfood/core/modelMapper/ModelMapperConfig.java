@@ -1,7 +1,9 @@
 package br.com.ivanfsilva.webfood.core.modelMapper;
 
 import br.com.ivanfsilva.webfood.api.model.EnderecoModel;
+import br.com.ivanfsilva.webfood.api.model.input.ItemPedidoInput;
 import br.com.ivanfsilva.webfood.domain.model.Endereco;
+import br.com.ivanfsilva.webfood.domain.model.ItemPedido;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,6 +20,9 @@ public class ModelMapperConfig {
 
         var enderecoToEnderecoModelTypeMap = modelMapper.createTypeMap(
                 Endereco.class, EnderecoModel.class);
+
+        modelMapper.createTypeMap(ItemPedidoInput.class, ItemPedido.class)
+                .addMappings(mapper -> mapper.skip(ItemPedido::setId));
 
         enderecoToEnderecoModelTypeMap.<String>addMapping(
                 enderecoSrc -> enderecoSrc.getCidade().getEstado().getNome(),
