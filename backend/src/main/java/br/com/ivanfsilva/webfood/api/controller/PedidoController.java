@@ -11,7 +11,9 @@ import br.com.ivanfsilva.webfood.domain.exception.NegocioException;
 import br.com.ivanfsilva.webfood.domain.model.Pedido;
 import br.com.ivanfsilva.webfood.domain.model.Usuario;
 import br.com.ivanfsilva.webfood.domain.repository.PedidoRepository;
+import br.com.ivanfsilva.webfood.domain.repository.filter.PedidoFilter;
 import br.com.ivanfsilva.webfood.domain.service.EmissaoPedidoService;
+import br.com.ivanfsilva.webfood.infrastructure.repository.spec.PedidoSpecs;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import org.apache.commons.lang3.StringUtils;
@@ -61,12 +63,12 @@ public class PedidoController {
         return pedidosWrapper;
     }
 
-//    @GetMapping
-//    public List<PedidoResumoModel> listar() {
-//        List<Pedido> todosPedidos = pedidoRepository.findAll();
-//
-//        return pedidoResumoModelAssembler.toCollectionModel(todosPedidos);
-//    }
+    @GetMapping
+    public List<PedidoResumoModel> pesquisar(PedidoFilter filtro) {
+        List<Pedido> todosPedidos = pedidoRepository.findAll(PedidoSpecs.usandoFiltro(filtro));
+
+        return pedidoResumoModelAssembler.toCollectionModel(todosPedidos);
+    }
 
     @GetMapping("/{codigoPedido}")
     public PedidoModel buscar(@PathVariable String codigoPedido) {
