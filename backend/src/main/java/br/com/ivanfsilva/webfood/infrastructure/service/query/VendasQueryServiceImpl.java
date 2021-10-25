@@ -1,4 +1,4 @@
-package br.com.ivanfsilva.webfood.infrastructure.service;
+package br.com.ivanfsilva.webfood.infrastructure.service.query;
 
 import br.com.ivanfsilva.webfood.domain.filter.VendaDiariaFilter;
 import br.com.ivanfsilva.webfood.domain.model.Pedido;
