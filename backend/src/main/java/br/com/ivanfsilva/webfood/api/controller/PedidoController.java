@@ -51,28 +51,8 @@ public class PedidoController {
     private PedidoInputDisassembler pedidoInputDisassembler;
 
     @GetMapping
-    public MappingJacksonValue listar(@RequestParam(required = false) String campos) {
-        List<Pedido> pedidos = pedidoRepository.findAll();
-        List<PedidoResumoModel> pedidosModel = pedidoResumoModelAssembler.toCollectionModel(pedidos);
-
-        MappingJacksonValue pedidosWrapper = new MappingJacksonValue(pedidosModel);
-
-        SimpleFilterProvider filterProvider = new SimpleFilterProvider();
-        filterProvider.addFilter("pedidoFilter", SimpleBeanPropertyFilter.serializeAll());
-
-        if (StringUtils.isNotBlank(campos)) {
-            filterProvider.addFilter("pedidoFilter", SimpleBeanPropertyFilter.filterOutAllExcept(campos.split(",")));
-        }
-
-        pedidosWrapper.setFilters(filterProvider);
-
-        return pedidosWrapper;
-    }
-
-    @GetMapping
     public Page<PedidoResumoModel> pesquisar(PedidoFilter filtro,
                                              @PageableDefault(size = 10) Pageable pageable) {
-
         pageable = traduzirPageable(pageable);
 
         Page<Pedido> pedidosPage = pedidoRepository.findAll(
@@ -85,13 +65,6 @@ public class PedidoController {
                 pedidosResumoModel, pageable, pedidosPage.getTotalElements());
 
         return pedidosResumoModelPage;
-    }
-
-    @GetMapping("/{codigoPedido}")
-    public PedidoModel buscar(@PathVariable String codigoPedido) {
-        Pedido pedido = emissaoPedido.buscarOuFalhar(codigoPedido);
-
-        return pedidoModelAssembler.toModel(pedido);
     }
 
     @PostMapping
@@ -112,12 +85,24 @@ public class PedidoController {
         }
     }
 
+    @GetMapping("/{codigoPedido}")
+    public PedidoModel buscar(@PathVariable String codigoPedido) {
+        Pedido pedido = emissaoPedido.buscarOuFalhar(codigoPedido);
+
+        return pedidoModelAssembler.toModel(pedido);
+    }
+
     private Pageable traduzirPageable(Pageable apiPageable) {
         var mapeamento = Map.of(
                 "codigo", "codigo",
+                "subtotal", "subtotal",
+                "taxaFrete", "taxaFrete",
+                "valorTotal", "valorTotal",
+                "dataCriacao", "dataCriacao",
                 "restaurante.nome", "restaurante.nome",
-                "nomeCliente", "cliente.nome",
-                "valorTotal", "valorTotal"
+                "restaurante.id", "restaurante.id",
+                "cliente.id", "cliente.id",
+                "cliente.nome", "cliente.nome"
         );
 
         return PageableTranslator.translate(apiPageable, mapeamento);

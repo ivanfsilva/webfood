@@ -1,10 +1,12 @@
 package br.com.ivanfsilva.webfood.domain.filter;
 
+import java.time.OffsetDateTime;
+
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
+
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import java.time.OffsetDateTime;
 
 @Setter
 @Getter
@@ -12,10 +14,10 @@ public class VendaDiariaFilter {
 
     private Long restauranteId;
 
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    @DateTimeFormat(iso = ISO.DATE_TIME)
     private OffsetDateTime dataCriacaoInicio;
 
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    private OffsetDateTime DataCriacaoFim;
+    @DateTimeFormat(iso = ISO.DATE_TIME)
+    private OffsetDateTime dataCriacaoFim;
 
 }
