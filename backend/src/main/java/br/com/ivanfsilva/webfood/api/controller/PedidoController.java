@@ -12,7 +12,7 @@ import br.com.ivanfsilva.webfood.domain.exception.NegocioException;
 import br.com.ivanfsilva.webfood.domain.model.Pedido;
 import br.com.ivanfsilva.webfood.domain.model.Usuario;
 import br.com.ivanfsilva.webfood.domain.repository.PedidoRepository;
-import br.com.ivanfsilva.webfood.domain.repository.filter.PedidoFilter;
+import br.com.ivanfsilva.webfood.domain.filter.PedidoFilter;
 import br.com.ivanfsilva.webfood.domain.service.EmissaoPedidoService;
 import br.com.ivanfsilva.webfood.infrastructure.repository.spec.PedidoSpecs;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;

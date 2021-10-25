@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import javax.persistence.criteria.Predicate;
 
 import br.com.ivanfsilva.webfood.domain.model.Pedido;
-import br.com.ivanfsilva.webfood.domain.repository.filter.PedidoFilter;
+import br.com.ivanfsilva.webfood.domain.filter.PedidoFilter;
 import org.springframework.data.jpa.domain.Specification;
 
 public class PedidoSpecs {

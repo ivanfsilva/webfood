@@ -1,4 +1,4 @@
-package br.com.ivanfsilva.webfood.domain.repository.filter;
+package br.com.ivanfsilva.webfood.domain.filter;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -8,9 +8,8 @@ import java.time.OffsetDateTime;
 
 @Setter
 @Getter
-public class PedidoFilter {
+public class VendaDiariaFilter {
 
-    private Long clienteId;
     private Long restauranteId;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
@@ -18,6 +17,5 @@ public class PedidoFilter {
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private OffsetDateTime DataCriacaoFim;
-
 
 }
