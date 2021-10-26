@@ -12,7 +12,7 @@ import java.nio.file.Path;
 @Service
 public class LocalFotoStorageService implements FotoStorageService {
 
-    @Value( "${algafood.storage.local.diretorio-fotos}" )
+    @Value( "${webfood.storage.local.diretorio-fotos}" )
     private Path diretorioFotos;
 
     @Override
