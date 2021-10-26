@@ -1,6 +1,8 @@
 package br.com.ivanfsilva.webfood.api.model.input;
 
+import br.com.ivanfsilva.webfood.core.validation.FileContentType;
 import br.com.ivanfsilva.webfood.core.validation.FileSize;
+import org.springframework.http.MediaType;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Getter;
@@ -15,6 +17,7 @@ public class FotoProdutoInput {
 
     @NotNull
     @FileSize(max = "500KB")
+    @FileContentType(allowed = { MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE })
     private MultipartFile arquivo;
 
     @NotBlank
