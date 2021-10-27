@@ -1,5 +1,6 @@
 package br.com.ivanfsilva.webfood.domain.service;
 
+import br.com.ivanfsilva.webfood.domain.exception.FotoProdutoNaoEncontradaException;
 import br.com.ivanfsilva.webfood.domain.model.FotoProduto;
 import br.com.ivanfsilva.webfood.domain.repository.ProdutoRepository;
 import br.com.ivanfsilva.webfood.domain.service.FotoStorageService.NovaFoto;
@@ -48,6 +49,11 @@ public class CatalogoFotoProdutoService {
         fotoStorage.substituir(nomeArquivoExistente, novaFoto);
 
         return foto;
+    }
+
+    public FotoProduto buscarOuFalhar(Long restauranteId, Long produtoId) {
+        return produtoRepository.findFotoById(restauranteId, produtoId)
+                .orElseThrow(() -> new FotoProdutoNaoEncontradaException(restauranteId, produtoId));
     }
 
 }
