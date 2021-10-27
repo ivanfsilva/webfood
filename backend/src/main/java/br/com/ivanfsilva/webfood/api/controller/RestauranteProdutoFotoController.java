@@ -3,18 +3,28 @@ package br.com.ivanfsilva.webfood.api.controller;
 import br.com.ivanfsilva.webfood.api.assembler.FotoProdutoModelAssembler;
 import br.com.ivanfsilva.webfood.api.model.FotoProdutoModel;
 import br.com.ivanfsilva.webfood.api.model.input.FotoProdutoInput;
+import br.com.ivanfsilva.webfood.domain.exception.EntidadeNaoEncontradaException;
 import br.com.ivanfsilva.webfood.domain.model.FotoProduto;
 import br.com.ivanfsilva.webfood.domain.model.Produto;
 import br.com.ivanfsilva.webfood.domain.service.CadastroProdutoService;
 import br.com.ivanfsilva.webfood.domain.service.CatalogoFotoProdutoService;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import java.io.IOException;
+import java.io.InputStream;
 
 import javax.validation.Valid;
-import java.io.IOException;
+
+import br.com.ivanfsilva.webfood.domain.service.FotoStorageService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/restaurantes/{restauranteId}/produtos/{produtoId}/foto")
@@ -28,6 +38,9 @@ public class RestauranteProdutoFotoController {
 
     @Autowired
     private FotoProdutoModelAssembler fotoProdutoModelAssembler;
+
+    @Autowired
+    private FotoStorageService fotoStorage;
 
     @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public FotoProdutoModel atualizarFoto(@PathVariable Long restauranteId,
@@ -54,6 +67,22 @@ public class RestauranteProdutoFotoController {
         FotoProduto fotoProduto = catalogoFotoProduto.buscarOuFalhar(restauranteId, produtoId);
 
         return fotoProdutoModelAssembler.toModel(fotoProduto);
+    }
+
+    @GetMapping(produces = MediaType.IMAGE_JPEG_VALUE)
+    public ResponseEntity<InputStreamResource> servirFoto(@PathVariable Long restauranteId,
+                                                          @PathVariable Long produtoId) {
+        try {
+            FotoProduto fotoProduto = catalogoFotoProduto.buscarOuFalhar(restauranteId, produtoId);
+
+            InputStream inputStream = fotoStorage.recuperar(fotoProduto.getNomeArquivo());
+
+            return ResponseEntity.ok()
+                    .contentType(MediaType.IMAGE_JPEG)
+                    .body(new InputStreamResource(inputStream));
+        } catch (EntidadeNaoEncontradaException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
 }
