@@ -18,6 +18,7 @@ import javax.validation.Valid;
 import br.com.ivanfsilva.webfood.domain.service.FotoStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpMediaTypeNotAcceptableException;
@@ -65,6 +66,13 @@ public class RestauranteProdutoFotoController {
         FotoProduto fotoProduto = catalogoFotoProduto.buscarOuFalhar(restauranteId, produtoId);
 
         return fotoProdutoModelAssembler.toModel(fotoProduto);
+    }
+
+    @DeleteMapping
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void excluir(@PathVariable Long restauranteId,
+                        @PathVariable Long produtoId) {
+        catalogoFotoProduto.excluir(restauranteId, produtoId);
     }
 
     @GetMapping
