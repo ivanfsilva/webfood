@@ -1,5 +1,6 @@
 package br.com.ivanfsilva.webfood.infrastructure.service.storage;
 
+import br.com.ivanfsilva.webfood.core.storage.StorageProperties;
 import br.com.ivanfsilva.webfood.domain.service.FotoStorageService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -12,8 +13,7 @@ import java.nio.file.Path;
 @Service
 public class LocalFotoStorageService implements FotoStorageService {
 
-    @Value( "${webfood.storage.local.diretorio-fotos}" )
-    private Path diretorioFotos;
+    private StorageProperties storeStorageProperties;
 
     @Override
     public InputStream recuperar(String nomeArquivo) {
@@ -50,6 +50,6 @@ public class LocalFotoStorageService implements FotoStorageService {
     }
 
     private Path getArquivoPath(String nomeArquivo) {
-        return diretorioFotos.resolve(Path.of(nomeArquivo));
+        return storeStorageProperties.getLocal().getDiretorioFotos().resolve(Path.of(nomeArquivo));
     }
 }
