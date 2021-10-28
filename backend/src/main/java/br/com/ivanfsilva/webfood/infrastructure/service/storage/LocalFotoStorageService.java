@@ -3,14 +3,11 @@ package br.com.ivanfsilva.webfood.infrastructure.service.storage;
 import br.com.ivanfsilva.webfood.core.storage.StorageProperties;
 import br.com.ivanfsilva.webfood.domain.service.FotoStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-//@Service
 public class LocalFotoStorageService implements FotoStorageService {
 
     @Autowired
