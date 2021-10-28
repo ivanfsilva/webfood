@@ -1,7 +1,10 @@
 package br.com.ivanfsilva.webfood.core.storage;
 
+import com.amazonaws.regions.Regions;
+
 import lombok.Getter;
 import lombok.Setter;
+
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -30,7 +33,7 @@ public class StorageProperties {
         private String idChaveAcesso;
         private String chaveAcessoSecreta;
         private String bucket;
-        private String regiao;
+        private Regions regiao;
         private String diretorioFotos;
 
     }
