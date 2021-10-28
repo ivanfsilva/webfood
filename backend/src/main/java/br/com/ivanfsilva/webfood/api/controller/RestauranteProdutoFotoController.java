@@ -36,10 +36,10 @@ public class RestauranteProdutoFotoController {
     private CatalogoFotoProdutoService catalogoFotoProduto;
 
     @Autowired
-    private FotoProdutoModelAssembler fotoProdutoModelAssembler;
+    private FotoStorageService fotoStorage;
 
     @Autowired
-    private FotoStorageService fotoStorage;
+    private FotoProdutoModelAssembler fotoProdutoModelAssembler;
 
     @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public FotoProdutoModel atualizarFoto(@PathVariable Long restauranteId,
@@ -60,14 +60,6 @@ public class RestauranteProdutoFotoController {
         return fotoProdutoModelAssembler.toModel(fotoSalva);
     }
 
-    @GetMapping
-    public FotoProdutoModel buscar(@PathVariable Long restauranteId,
-                                   @PathVariable Long produtoId) {
-        FotoProduto fotoProduto = catalogoFotoProduto.buscarOuFalhar(restauranteId, produtoId);
-
-        return fotoProdutoModelAssembler.toModel(fotoProduto);
-    }
-
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void excluir(@PathVariable Long restauranteId,
@@ -75,10 +67,17 @@ public class RestauranteProdutoFotoController {
         catalogoFotoProduto.excluir(restauranteId, produtoId);
     }
 
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public FotoProdutoModel buscar(@PathVariable Long restauranteId,
+                                   @PathVariable Long produtoId) {
+        FotoProduto fotoProduto = catalogoFotoProduto.buscarOuFalhar(restauranteId, produtoId);
+
+        return fotoProdutoModelAssembler.toModel(fotoProduto);
+    }
+
     @GetMapping
-    public ResponseEntity<InputStreamResource> servirFoto(@PathVariable Long restauranteId,
-                                                          @PathVariable Long produtoId,
-                                                          @RequestHeader(name = "accept") String acceptHeader)
+    public ResponseEntity<InputStreamResource> servir(@PathVariable Long restauranteId,
+                                                      @PathVariable Long produtoId, @RequestHeader(name = "accept") String acceptHeader)
             throws HttpMediaTypeNotAcceptableException {
         try {
             FotoProduto fotoProduto = catalogoFotoProduto.buscarOuFalhar(restauranteId, produtoId);

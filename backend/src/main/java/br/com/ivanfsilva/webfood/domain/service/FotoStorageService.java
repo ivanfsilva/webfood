@@ -1,10 +1,10 @@
 package br.com.ivanfsilva.webfood.domain.service;
 
-import lombok.Builder;
-import lombok.Getter;
-
 import java.io.InputStream;
 import java.util.UUID;
+
+import lombok.Builder;
+import lombok.Getter;
 
 public interface FotoStorageService {
 
@@ -31,6 +31,7 @@ public interface FotoStorageService {
     class NovaFoto {
 
         private String nomeAquivo;
+        private String contentType;
         private InputStream inputStream;
 
     }
