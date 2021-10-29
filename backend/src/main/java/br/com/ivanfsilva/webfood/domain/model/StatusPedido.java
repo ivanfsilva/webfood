@@ -6,9 +6,9 @@ import java.util.List;
 public enum StatusPedido {
 
     CRIADO("Criado"),
-    CONFIRMADO("Confirmado"),
-    ENTREGUE("Entregue"),
-    CANCELADO("Cancelado");
+    CONFIRMADO("Confirmado", CRIADO),
+    ENTREGUE("Entregue", CONFIRMADO),
+    CANCELADO("Cancelado", CRIADO);
 
     private String descricao;
     private List<StatusPedido> statusAnteriores;
