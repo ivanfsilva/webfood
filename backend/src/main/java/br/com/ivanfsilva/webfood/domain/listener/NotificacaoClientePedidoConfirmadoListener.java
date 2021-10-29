@@ -1,7 +1,8 @@
 package br.com.ivanfsilva.webfood.domain.listener;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.event.EventListener;
+import org.springframework.transaction.event.TransactionPhase;
+import org.springframework.transaction.event.TransactionalEventListener;
 import org.springframework.stereotype.Component;
 
 import br.com.ivanfsilva.webfood.domain.event.PedidoConfirmadoEvent;
@@ -15,7 +16,8 @@ public class NotificacaoClientePedidoConfirmadoListener {
     @Autowired
     private EnvioEmailService envioEmail;
 
-    @EventListener
+    // decisao do negocio: o envio do email eh importante? se nao for, retira a phase
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     public void aoConfirmarPedido(PedidoConfirmadoEvent event) {
         Pedido pedido = event.getPedido();
 
