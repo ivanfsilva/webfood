@@ -1,15 +1,18 @@
 package br.com.ivanfsilva.webfood.domain.model;
 
+import br.com.ivanfsilva.webfood.domain.event.PedidoCanceladoEvent;
 import br.com.ivanfsilva.webfood.domain.event.PedidoConfirmadoEvent;
 import br.com.ivanfsilva.webfood.domain.exception.NegocioException;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
 import org.hibernate.annotations.CreationTimestamp;
+
 import org.springframework.data.domain.AbstractAggregateRoot;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -84,6 +87,8 @@ public class Pedido extends AbstractAggregateRoot<Pedido> {
     public void cancelar() {
         setStatus(StatusPedido.CANCELADO);
         setDataCancelamento(OffsetDateTime.now());
+
+        registerEvent(new PedidoCanceladoEvent(this));
     }
 
     private void setStatus(StatusPedido novoStatus) {
