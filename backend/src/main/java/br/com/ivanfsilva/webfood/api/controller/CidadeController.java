@@ -4,11 +4,15 @@ import br.com.ivanfsilva.webfood.api.assembler.CidadeInputDisassembler;
 import br.com.ivanfsilva.webfood.api.assembler.CidadeModelAssembler;
 import br.com.ivanfsilva.webfood.api.model.CidadeModel;
 import br.com.ivanfsilva.webfood.api.model.input.CidadeInput;
+
 import br.com.ivanfsilva.webfood.domain.exception.EstadoNaoEncontradoException;
 import br.com.ivanfsilva.webfood.domain.exception.NegocioException;
 import br.com.ivanfsilva.webfood.domain.model.Cidade;
 import br.com.ivanfsilva.webfood.domain.repository.CidadeRepository;
 import br.com.ivanfsilva.webfood.domain.service.CadastroCidadeService;
+
+import io.swagger.annotations.Api;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+@Api(tags = "Cidades")
 @RestController
 @RequestMapping(value = "/cidades")
 public class CidadeController {

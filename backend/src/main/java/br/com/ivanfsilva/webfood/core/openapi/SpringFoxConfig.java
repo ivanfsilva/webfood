@@ -5,13 +5,19 @@ import org.springframework.context.annotation.Configuration;
 
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
+
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
+import springfox.documentation.service.Tag;
+
 import springfox.documentation.spi.DocumentationType;
+
 import springfox.documentation.spring.web.plugins.Docket;
+
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
@@ -26,7 +32,9 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                 .paths(PathSelectors.any())
 //					.paths(PathSelectors.ant("/restaurantes/*"))
                 .build()
-                .apiInfo(apiInfo());
+                .apiInfo(apiInfo())
+//                .tags(new Tag("Cidades", "Gerencia as cidades"));
+                .tags(tags()[0], tags());
     }
 
     public ApiInfo apiInfo() {
@@ -45,6 +53,27 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 
         registry.addResourceHandler("/webjars/**")
                 .addResourceLocations("classpath:/META-INF/resources/webjars/");
+    }
+
+    private Tag[] tags() {
+        return new Tag[] {
+                new Tag("City", "Manage the cities"),
+                new Tag("Cuisine", "Manage the cuisines"),
+                new Tag("Group", "Manage the groups"),
+                new Tag("Group permission", "Manage the groups permissions"),
+                new Tag("Order", "Manage the orders"),
+                new Tag("Order status", "Manage the orders status"),
+                new Tag("Payment method", "Manage the payment methods"),
+                new Tag("Product photo", "Manage the products photos"),
+                new Tag("Restaurant", "Manage the restaurants"),
+                new Tag("Restaurant payment method", "Manage the restaurants payment methods"),
+                new Tag("Restaurant product", "Manage the restaurants products"),
+                new Tag("Restaurant user", "Manage the restaurants owners"),
+                new Tag("State", "Manage the states"),
+                new Tag("Statistic", "Manage the statistics"),
+                new Tag("User", "Manage the users"),
+                new Tag("User group", "Manage the users groups")
+        };
     }
 
 }
