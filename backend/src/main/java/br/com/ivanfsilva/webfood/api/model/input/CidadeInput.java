@@ -13,6 +13,7 @@ import io.swagger.annotations.ApiModelProperty;
 @Getter
 public class CidadeInput {
 
+//    @ApiModelProperty(example = "Uberlândia", required = true)
     @ApiModelProperty(example = "Uberlândia")
     @NotBlank
     private String nome;
