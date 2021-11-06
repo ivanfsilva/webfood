@@ -2,7 +2,7 @@ package br.com.ivanfsilva.webfood.api.controller;
 
 import br.com.ivanfsilva.webfood.api.assembler.GrupoInputDisassembler;
 import br.com.ivanfsilva.webfood.api.assembler.GrupoModelAssembler;
-import br.com.ivanfsilva.webfood.api.controller.openapi.GrupoControllerOpenApi;
+import br.com.ivanfsilva.webfood.api.openapi.controller.GrupoControllerOpenApi;
 import br.com.ivanfsilva.webfood.api.model.GrupoModel;
 import br.com.ivanfsilva.webfood.api.model.input.GrupoInput;
 

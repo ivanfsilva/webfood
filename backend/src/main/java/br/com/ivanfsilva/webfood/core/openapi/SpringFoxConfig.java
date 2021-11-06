@@ -1,9 +1,12 @@
 package br.com.ivanfsilva.webfood.core.openapi;
 
 import br.com.ivanfsilva.webfood.api.exceptionhandler.Problem;
-import br.com.ivanfsilva.webfood.core.openapi.model.PageableModelOpenApi;
+import br.com.ivanfsilva.webfood.api.model.CozinhaModel;
+import br.com.ivanfsilva.webfood.api.openapi.model.CozinhasModelOpenApi;
+import br.com.ivanfsilva.webfood.api.openapi.model.PageableModelOpenApi;
 import com.fasterxml.classmate.TypeResolver;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.context.annotation.Bean;
@@ -20,6 +23,7 @@ import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 
 import springfox.documentation.builders.ResponseMessageBuilder;
+import springfox.documentation.schema.AlternateTypeRules;
 import springfox.documentation.schema.ModelRef;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
@@ -57,6 +61,9 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                 .globalResponseMessage(RequestMethod.DELETE, globalDeleteResponseMessages())
                 .additionalModels(typeResolver.resolve(Problem.class))
                 .directModelSubstitute(Pageable.class, PageableModelOpenApi.class)
+                .alternateTypeRules(AlternateTypeRules.newRule(
+                        typeResolver.resolve(Page.class, CozinhaModel.class),
+                        CozinhasModelOpenApi.class))
                 .apiInfo(apiInfo())
 //                .tags(new Tag("Cidades", "Gerencia as cidades"));
                 .tags(tags()[0], tags());

@@ -1,4 +1,4 @@
-package br.com.ivanfsilva.webfood.api.controller.openapi;
+package br.com.ivanfsilva.webfood.api.openapi.controller;
 
 import java.util.List;
 

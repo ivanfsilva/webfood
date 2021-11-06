@@ -2,8 +2,7 @@ package br.com.ivanfsilva.webfood.api.controller;
 
 import br.com.ivanfsilva.webfood.api.assembler.CidadeInputDisassembler;
 import br.com.ivanfsilva.webfood.api.assembler.CidadeModelAssembler;
-import br.com.ivanfsilva.webfood.api.controller.openapi.CidadeControllerOpenApi;
-import br.com.ivanfsilva.webfood.api.exceptionhandler.Problem;
+import br.com.ivanfsilva.webfood.api.openapi.controller.CidadeControllerOpenApi;
 import br.com.ivanfsilva.webfood.api.model.CidadeModel;
 import br.com.ivanfsilva.webfood.api.model.input.CidadeInput;
 
