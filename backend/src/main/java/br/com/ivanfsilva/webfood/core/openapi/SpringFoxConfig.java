@@ -1,5 +1,8 @@
 package br.com.ivanfsilva.webfood.core.openapi;
 
+import br.com.ivanfsilva.webfood.api.exceptionhandler.Problem;
+import com.fasterxml.classmate.TypeResolver;
+
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -36,6 +39,8 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 
     @Bean
     public Docket apiDocket() {
+        var typeResolver = new TypeResolver();
+
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
                     .apis(RequestHandlerSelectors.basePackage("br.com.ivanfsilva.webfood.api"))
@@ -47,6 +52,7 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                 .globalResponseMessage(RequestMethod.POST, globalPostPutResponseMessages())
                 .globalResponseMessage(RequestMethod.PUT, globalPostPutResponseMessages())
                 .globalResponseMessage(RequestMethod.DELETE, globalDeleteResponseMessages())
+                .additionalModels(typeResolver.resolve(Problem.class))
                 .apiInfo(apiInfo())
 //                .tags(new Tag("Cidades", "Gerencia as cidades"));
                 .tags(tags()[0], tags());
