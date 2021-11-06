@@ -4,9 +4,12 @@ import br.com.ivanfsilva.webfood.api.assembler.CozinhaInputDisassembler;
 import br.com.ivanfsilva.webfood.api.assembler.CozinhaModelAssembler;
 import br.com.ivanfsilva.webfood.api.model.CozinhaModel;
 import br.com.ivanfsilva.webfood.api.model.input.CozinhaInput;
+import br.com.ivanfsilva.webfood.api.openapi.controller.CozinhaControllerOpenApi;
+
 import br.com.ivanfsilva.webfood.domain.model.Cozinha;
 import br.com.ivanfsilva.webfood.domain.repository.CozinhaRepository;
 import br.com.ivanfsilva.webfood.domain.service.CadastroCozinhaService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -19,7 +22,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/cozinhas")
-public class CozinhaController {
+public class CozinhaController implements CozinhaControllerOpenApi {
 
     @Autowired
     private CozinhaRepository cozinhaRepository;
