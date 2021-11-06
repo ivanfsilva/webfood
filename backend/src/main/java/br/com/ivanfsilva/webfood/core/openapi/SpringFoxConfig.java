@@ -1,8 +1,10 @@
 package br.com.ivanfsilva.webfood.core.openapi;
 
 import br.com.ivanfsilva.webfood.api.exceptionhandler.Problem;
+import br.com.ivanfsilva.webfood.core.openapi.model.PageableModelOpenApi;
 import com.fasterxml.classmate.TypeResolver;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -54,6 +56,7 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                 .globalResponseMessage(RequestMethod.PUT, globalPostPutResponseMessages())
                 .globalResponseMessage(RequestMethod.DELETE, globalDeleteResponseMessages())
                 .additionalModels(typeResolver.resolve(Problem.class))
+                .directModelSubstitute(Pageable.class, PageableModelOpenApi.class)
                 .apiInfo(apiInfo())
 //                .tags(new Tag("Cidades", "Gerencia as cidades"));
                 .tags(tags()[0], tags());
