@@ -3,6 +3,7 @@ package br.com.ivanfsilva.webfood.api.controller;
 import br.com.ivanfsilva.webfood.api.assembler.FotoProdutoModelAssembler;
 import br.com.ivanfsilva.webfood.api.model.FotoProdutoModel;
 import br.com.ivanfsilva.webfood.api.model.input.FotoProdutoInput;
+import br.com.ivanfsilva.webfood.api.openapi.controller.RestauranteProdutoFotoControllerOpenApi;
 import br.com.ivanfsilva.webfood.domain.exception.EntidadeNaoEncontradaException;
 import br.com.ivanfsilva.webfood.domain.model.FotoProduto;
 import br.com.ivanfsilva.webfood.domain.model.Produto;
@@ -27,8 +28,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@RequestMapping("/restaurantes/{restauranteId}/produtos/{produtoId}/foto")
-public class RestauranteProdutoFotoController {
+@RequestMapping(path = "/restaurantes/{restauranteId}/produtos/{produtoId}/foto",
+        produces = MediaType.APPLICATION_JSON_VALUE)
+public class RestauranteProdutoFotoController implements RestauranteProdutoFotoControllerOpenApi {
 
     @Autowired
     private CadastroProdutoService cadastroProduto;
@@ -68,7 +70,7 @@ public class RestauranteProdutoFotoController {
         catalogoFotoProduto.excluir(restauranteId, produtoId);
     }
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping
     public FotoProdutoModel buscar(@PathVariable Long restauranteId,
                                    @PathVariable Long produtoId) {
         FotoProduto fotoProduto = catalogoFotoProduto.buscarOuFalhar(restauranteId, produtoId);
@@ -76,7 +78,7 @@ public class RestauranteProdutoFotoController {
         return fotoProdutoModelAssembler.toModel(fotoProduto);
     }
 
-    @GetMapping
+    @GetMapping(produces = MediaType.ALL_VALUE)
     public ResponseEntity<?> servir(@PathVariable Long restauranteId,
                                     @PathVariable Long produtoId, @RequestHeader(name = "accept") String acceptHeader)
             throws HttpMediaTypeNotAcceptableException {
