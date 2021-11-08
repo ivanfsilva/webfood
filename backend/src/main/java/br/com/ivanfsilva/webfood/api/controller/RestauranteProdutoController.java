@@ -4,21 +4,25 @@ import br.com.ivanfsilva.webfood.api.assembler.ProdutoInputDisassembler;
 import br.com.ivanfsilva.webfood.api.assembler.ProdutoModelAssembler;
 import br.com.ivanfsilva.webfood.api.model.ProdutoModel;
 import br.com.ivanfsilva.webfood.api.model.input.ProdutoInput;
+import br.com.ivanfsilva.webfood.api.openapi.controller.RestauranteProdutoControllerOpenApi;
 import br.com.ivanfsilva.webfood.domain.model.Produto;
 import br.com.ivanfsilva.webfood.domain.model.Restaurante;
 import br.com.ivanfsilva.webfood.domain.repository.ProdutoRepository;
 import br.com.ivanfsilva.webfood.domain.service.CadastroProdutoService;
 import br.com.ivanfsilva.webfood.domain.service.CadastroRestauranteService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/restaurantes/{restauranteId}/produtos")
-public class RestauranteProdutoController {
+@RequestMapping(path = "/restaurantes/{restauranteId}/produtos",
+        produces = MediaType.APPLICATION_JSON_VALUE)
+public class RestauranteProdutoController implements RestauranteProdutoControllerOpenApi {
 
     @Autowired
     private ProdutoRepository produtoRepository;
