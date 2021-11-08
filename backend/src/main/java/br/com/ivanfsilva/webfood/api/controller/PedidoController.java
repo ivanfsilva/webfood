@@ -6,6 +6,7 @@ import br.com.ivanfsilva.webfood.api.assembler.PedidoResumoModelAssembler;
 import br.com.ivanfsilva.webfood.api.model.PedidoModel;
 import br.com.ivanfsilva.webfood.api.model.PedidoResumoModel;
 import br.com.ivanfsilva.webfood.api.model.input.PedidoInput;
+import br.com.ivanfsilva.webfood.api.openapi.controller.PedidoControllerOpenApi;
 import br.com.ivanfsilva.webfood.core.data.PageableTranslator;
 import br.com.ivanfsilva.webfood.domain.exception.EntidadeNaoEncontradaException;
 import br.com.ivanfsilva.webfood.domain.exception.NegocioException;
@@ -15,16 +16,14 @@ import br.com.ivanfsilva.webfood.domain.repository.PedidoRepository;
 import br.com.ivanfsilva.webfood.domain.filter.PedidoFilter;
 import br.com.ivanfsilva.webfood.domain.service.EmissaoPedidoService;
 import br.com.ivanfsilva.webfood.infrastructure.repository.spec.PedidoSpecs;
-import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
-import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
-import org.apache.commons.lang3.StringUtils;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.converter.json.MappingJacksonValue;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -32,8 +31,8 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping(value = "/pedidos")
-public class PedidoController {
+@RequestMapping(path = "/pedidos", produces = MediaType.APPLICATION_JSON_VALUE)
+public class PedidoController implements PedidoControllerOpenApi {
 
     @Autowired
     private PedidoRepository pedidoRepository;

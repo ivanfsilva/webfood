@@ -2,8 +2,10 @@ package br.com.ivanfsilva.webfood.core.openapi;
 
 import br.com.ivanfsilva.webfood.api.exceptionhandler.Problem;
 import br.com.ivanfsilva.webfood.api.model.CozinhaModel;
+import br.com.ivanfsilva.webfood.api.model.PedidoResumoModel;
 import br.com.ivanfsilva.webfood.api.openapi.model.CozinhasModelOpenApi;
 import br.com.ivanfsilva.webfood.api.openapi.model.PageableModelOpenApi;
+import br.com.ivanfsilva.webfood.api.openapi.model.PedidosResumoModelOpenApi;
 import com.fasterxml.classmate.TypeResolver;
 
 import org.springframework.data.domain.Page;
@@ -66,6 +68,9 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                 .alternateTypeRules(AlternateTypeRules.newRule(
                         typeResolver.resolve(Page.class, CozinhaModel.class),
                         CozinhasModelOpenApi.class))
+                .alternateTypeRules(AlternateTypeRules.newRule(
+                        typeResolver.resolve(Page.class, PedidoResumoModel.class),
+                        PedidosResumoModelOpenApi.class))
                 .apiInfo(apiInfo())
 //                .tags(new Tag("Cidades", "Gerencia as cidades"));
                 .tags(tags()[0], tags());
