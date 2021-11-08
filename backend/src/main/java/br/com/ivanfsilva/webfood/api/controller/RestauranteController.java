@@ -5,6 +5,7 @@ import br.com.ivanfsilva.webfood.api.assembler.RestauranteModelAssembler;
 import br.com.ivanfsilva.webfood.api.model.RestauranteModel;
 import br.com.ivanfsilva.webfood.api.model.input.RestauranteInput;
 import br.com.ivanfsilva.webfood.api.model.view.RestauranteView;
+import br.com.ivanfsilva.webfood.api.openapi.controller.RestauranteControllerOpenApi;
 import br.com.ivanfsilva.webfood.api.openapi.model.RestauranteBasicoModelOpenApi;
 import br.com.ivanfsilva.webfood.domain.exception.CidadeNaoEncontradaException;
 import br.com.ivanfsilva.webfood.domain.exception.CozinhaNaoEncontradaException;
@@ -19,6 +20,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.validation.SmartValidator;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,8 +28,8 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/restaurantes")
-public class RestauranteController {
+@RequestMapping(path = "/restaurantes", produces = MediaType.APPLICATION_JSON_VALUE)
+public class RestauranteController implements RestauranteControllerOpenApi {
 
     @Autowired
     private RestauranteRepository restauranteRepository;
@@ -61,41 +63,6 @@ public class RestauranteController {
     public List<RestauranteModel> listarApenasNomes() {
         return listar();
     }
-
-//	@GetMapping
-//	public MappingJacksonValue listar(@RequestParam(required = false) String projecao) {
-//		List<Restaurante> restaurantes = restauranteRepository.findAll();
-//		List<RestauranteModel> restaurantesModel = restauranteModelAssembler.toCollectionModel(restaurantes);
-//
-//		MappingJacksonValue restaurantesWrapper = new MappingJacksonValue(restaurantesModel);
-//
-//		restaurantesWrapper.setSerializationView(RestauranteView.Resumo.class);
-//
-//		if ("apenas-nome".equals(projecao)) {
-//			restaurantesWrapper.setSerializationView(RestauranteView.ApenasNome.class);
-//		} else if ("completo".equals(projecao)) {
-//			restaurantesWrapper.setSerializationView(null);
-//		}
-//
-//		return restaurantesWrapper;
-//	}
-
-//	@GetMapping
-//	public List<RestauranteModel> listar() {
-//		return restauranteModelAssembler.toCollectionModel(restauranteRepository.findAll());
-//	}
-//
-//	@JsonView(RestauranteView.Resumo.class)
-//	@GetMapping(params = "projecao=resumo")
-//	public List<RestauranteModel> listarResumido() {
-//		return listar();
-//	}
-//
-//	@JsonView(RestauranteView.ApenasNome.class)
-//	@GetMapping(params = "projecao=apenas-nome")
-//	public List<RestauranteModel> listarApenasNomes() {
-//		return listar();
-//	}
 
     @GetMapping("/{restauranteId}")
     public RestauranteModel buscar(@PathVariable Long restauranteId) {
@@ -143,25 +110,24 @@ public class RestauranteController {
 
     @PutMapping("/ativacoes")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void ativarMultiplo( @RequestBody List<Long> restauranteIds ) {
+    public void ativarMultiplos(@RequestBody List<Long> restauranteIds) {
         try {
             cadastroRestaurante.ativar(restauranteIds);
-
         } catch (RestauranteNaoEncontradoException e) {
             throw new NegocioException(e.getMessage(), e);
         }
     }
 
-    @DeleteMapping("/inativacoes")
+    @DeleteMapping("/ativacoes")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void inativarMultiplo( @RequestBody List<Long> restauranteIds ) {
+    public void inativarMultiplos(@RequestBody List<Long> restauranteIds) {
         try {
             cadastroRestaurante.inativar(restauranteIds);
-
         } catch (RestauranteNaoEncontradoException e) {
             throw new NegocioException(e.getMessage(), e);
         }
     }
+
 
     @PutMapping("/{restauranteId}/abertura")
     @ResponseStatus(HttpStatus.NO_CONTENT)
