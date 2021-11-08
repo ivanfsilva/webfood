@@ -6,6 +6,7 @@ import br.com.ivanfsilva.webfood.api.assembler.RestauranteModelAssembler;
 import br.com.ivanfsilva.webfood.api.model.FormaPagamentoModel;
 import br.com.ivanfsilva.webfood.api.model.RestauranteModel;
 import br.com.ivanfsilva.webfood.api.model.input.RestauranteInput;
+import br.com.ivanfsilva.webfood.api.openapi.controller.RestauranteFormaPagamentoControllerOpenApi;
 import br.com.ivanfsilva.webfood.domain.exception.CidadeNaoEncontradaException;
 import br.com.ivanfsilva.webfood.domain.exception.CozinhaNaoEncontradaException;
 import br.com.ivanfsilva.webfood.domain.exception.NegocioException;
@@ -14,6 +15,7 @@ import br.com.ivanfsilva.webfood.domain.repository.RestauranteRepository;
 import br.com.ivanfsilva.webfood.domain.service.CadastroRestauranteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.validation.SmartValidator;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,8 +23,9 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/restaurantes/{restauranteId}/formas-pagamento")
-public class RestauranteFormaPagamentoController {
+@RequestMapping(path = "/restaurantes/{restauranteId}/formas-pagamento",
+        produces = MediaType.APPLICATION_JSON_VALUE)
+public class RestauranteFormaPagamentoController implements RestauranteFormaPagamentoControllerOpenApi {
 
     @Autowired
     private CadastroRestauranteService cadastroRestaurante;
