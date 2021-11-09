@@ -2,17 +2,21 @@ package br.com.ivanfsilva.webfood.api.controller;
 
 import br.com.ivanfsilva.webfood.api.assembler.GrupoModelAssembler;
 import br.com.ivanfsilva.webfood.api.model.GrupoModel;
+import br.com.ivanfsilva.webfood.api.openapi.controller.UsuarioGrupoControllerOpenApi;
 import br.com.ivanfsilva.webfood.domain.model.Usuario;
 import br.com.ivanfsilva.webfood.domain.service.CadastroUsuarioService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/usuarios/{usuarioId}/grupos")
-public class UsuarioGrupoController {
+@RequestMapping(path = "/usuarios/{usuarioId}/grupos",
+        produces = MediaType.APPLICATION_JSON_VALUE)
+public class UsuarioGrupoController implements UsuarioGrupoControllerOpenApi {
 
     @Autowired
     private CadastroUsuarioService cadastroUsuario;
