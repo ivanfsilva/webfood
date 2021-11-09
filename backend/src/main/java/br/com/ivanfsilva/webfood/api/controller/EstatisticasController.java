@@ -1,5 +1,6 @@
 package br.com.ivanfsilva.webfood.api.controller;
 
+import br.com.ivanfsilva.webfood.api.openapi.controller.EstatisticasControllerOpenApi;
 import br.com.ivanfsilva.webfood.domain.filter.VendaDiariaFilter;
 import br.com.ivanfsilva.webfood.domain.model.dto.VendaDiaria;
 import br.com.ivanfsilva.webfood.domain.service.VendaQueryService;
@@ -16,8 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping( path = "/estatisticas")
-public class EstatisticasController {
+@RequestMapping(path = "/estatisticas")
+public class EstatisticasController implements EstatisticasControllerOpenApi {
 
     @Autowired
     private VendaReportService vendaReportService;
