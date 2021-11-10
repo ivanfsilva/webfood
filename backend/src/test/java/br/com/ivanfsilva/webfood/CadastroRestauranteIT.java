@@ -1,30 +1,32 @@
 package br.com.ivanfsilva.webfood;
 
-import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.equalTo;
-
-import java.math.BigDecimal;
-
 import br.com.ivanfsilva.webfood.domain.model.Cozinha;
 import br.com.ivanfsilva.webfood.domain.model.Restaurante;
 import br.com.ivanfsilva.webfood.domain.repository.CozinhaRepository;
 import br.com.ivanfsilva.webfood.domain.repository.RestauranteRepository;
 import br.com.ivanfsilva.webfood.util.DatabaseCleaner;
 import br.com.ivanfsilva.webfood.util.ResourceUtils;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+
+import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
+
+import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.equalTo;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.extension.ExtendWith;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
+import java.math.BigDecimal;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource("/application-test.properties")
 public class CadastroRestauranteIT {
@@ -54,7 +56,7 @@ public class CadastroRestauranteIT {
 
     private Restaurante burgerTopRestaurante;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
         RestAssured.port = port;
