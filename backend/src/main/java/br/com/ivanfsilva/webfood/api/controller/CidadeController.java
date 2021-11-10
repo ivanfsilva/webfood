@@ -1,5 +1,7 @@
 package br.com.ivanfsilva.webfood.api.controller;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+
 import br.com.ivanfsilva.webfood.api.ResourceUriHelper;
 import br.com.ivanfsilva.webfood.api.assembler.CidadeInputDisassembler;
 import br.com.ivanfsilva.webfood.api.assembler.CidadeModelAssembler;
@@ -56,13 +58,23 @@ public class CidadeController implements CidadeControllerOpenApi {
 
         CidadeModel cidadeModel = cidadeModelAssembler.toModel(cidade);
 
-        cidadeModel.add(Link.of("http://localhost:8080/cidades/1"));
+        cidadeModel.add(linkTo(CidadeController.class)
+                .slash(cidadeModel.getId()).withSelfRel());
+
+//        cidadeModel.add(Link.of("http://localhost:8080/cidades/1"));
 //		cidadeModel.add(Link.of("http://localhost:8080/cidades/1", IanaLinkRelations.SELF));
 
 //		cidadeModel.add(Link.of("http://localhost:8080/cidades", IanaLinkRelations.COLLECTION));
-        cidadeModel.add(Link.of("http://localhost:8080/cidades", "cidades"));
 
-        cidadeModel.getEstado().add(Link.of("http://localhost:8080/estados/1"));
+        cidadeModel.add(linkTo(CidadeController.class)
+                .withRel("cidades"));
+
+//        cidadeModel.add(Link.of("http://localhost:8080/cidades", "cidades"));
+
+        cidadeModel.getEstado().add(linkTo(EstadoController.class)
+                .slash(cidadeModel.getEstado().getId()).withSelfRel());
+
+//        cidadeModel.getEstado().add(Link.of("http://localhost:8080/estados/1"));
 
         return cidadeModel;
     }
