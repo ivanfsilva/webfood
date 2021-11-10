@@ -16,6 +16,7 @@ import br.com.ivanfsilva.webfood.domain.service.CadastroCidadeService;
 import io.swagger.annotations.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -48,12 +49,22 @@ public class CidadeController implements CidadeControllerOpenApi {
         return cidadeModelAssembler.toCollectionModel(todasCidades);
     }
 
-    @GetMapping("/{cidadeId}")
-    public CidadeModel buscar(
-            @PathVariable Long cidadeId) {
+    @Override
+    @GetMapping(path = "/{cidadeId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public CidadeModel buscar(@PathVariable Long cidadeId) {
         Cidade cidade = cadastroCidade.buscarOuFalhar(cidadeId);
 
-        return cidadeModelAssembler.toModel(cidade);
+        CidadeModel cidadeModel = cidadeModelAssembler.toModel(cidade);
+
+        cidadeModel.add(Link.of("http://localhost:8080/cidades/1"));
+//		cidadeModel.add(Link.of("http://localhost:8080/cidades/1", IanaLinkRelations.SELF));
+
+//		cidadeModel.add(Link.of("http://localhost:8080/cidades", IanaLinkRelations.COLLECTION));
+        cidadeModel.add(Link.of("http://localhost:8080/cidades", "cidades"));
+
+        cidadeModel.getEstado().add(Link.of("http://localhost:8080/estados/1"));
+
+        return cidadeModel;
     }
 
     @PostMapping
