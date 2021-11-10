@@ -1,5 +1,6 @@
 package br.com.ivanfsilva.webfood.api.controller;
 
+import br.com.ivanfsilva.webfood.api.ResourceUriHelper;
 import br.com.ivanfsilva.webfood.api.assembler.CidadeInputDisassembler;
 import br.com.ivanfsilva.webfood.api.assembler.CidadeModelAssembler;
 import br.com.ivanfsilva.webfood.api.openapi.controller.CidadeControllerOpenApi;
@@ -63,7 +64,11 @@ public class CidadeController implements CidadeControllerOpenApi {
 
             cidade = cadastroCidade.salvar(cidade);
 
-            return cidadeModelAssembler.toModel(cidade);
+            CidadeModel cidadeModel = cidadeModelAssembler.toModel(cidade);
+
+            ResourceUriHelper.addUriInResponseHeader(cidadeModel.getId());
+
+            return cidadeModel;
         } catch (EstadoNaoEncontradoException e) {
             throw new NegocioException(e.getMessage(), e);
         }
